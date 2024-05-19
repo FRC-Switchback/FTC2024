@@ -1,3 +1,5 @@
+## SWITCHBACK'S 2024 FTC ROBOT, DOS.
+Follow our build thread here: https://www.chiefdelphi.com/t/switchback-2024-build-thread/466454/3
 ## NOTICE
 
 This repository contains the public FTC SDK for the CENTERSTAGE (2023-2024) competition season.
