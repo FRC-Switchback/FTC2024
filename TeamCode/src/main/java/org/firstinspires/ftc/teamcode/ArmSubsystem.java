@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 public class ArmSubsystem {
     private DcMotor jointOne;
     private DcMotor jointTwo;
@@ -34,8 +36,10 @@ public class ArmSubsystem {
     public static int joint1PlaceHigh=0;
     public static int joint2PlaceHigh=0;
     public static int wristPLaceHigh=0;
+    Telemetry telemetry;
 
-    public void init(HardwareMap hwmap){
+    public void init(HardwareMap hwmap, Telemetry telemetry){
+        this.telemetry=telemetry;
         jointOne=hwmap.get(DcMotor.class, "firstJoint");
         jointTwo=hwmap.get(DcMotor.class,"secondJoint");
         wrist=hwmap.get(Servo.class,"wrist");
@@ -83,8 +87,9 @@ public class ArmSubsystem {
 
         }
     }
-    public int[] getPosistions(){
+    public void printPosistions(){
         int[] pos={jointOne.getCurrentPosition(),jointTwo.getCurrentPosition()};
-        return pos;
+        telemetry.addData("first joint", pos[0]);
+        telemetry.addData("second joint", pos[1]);
     }
 }
