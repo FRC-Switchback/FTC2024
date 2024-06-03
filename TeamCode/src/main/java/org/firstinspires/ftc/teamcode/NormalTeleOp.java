@@ -1,14 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp
 public class NormalTeleOp extends LinearOpMode {
-    public ArmSubsystem arm=new ArmSubsystem();
-    public teleDrive drive=new teleDrive();
+    private final ArmSubsystem arm=new ArmSubsystem();
+    private final teleDrive drive=new teleDrive();
+    private final ClawSubsystem claw=new ClawSubsystem();
+    private boolean lastPress=false;
     @Override
     public void runOpMode(){
+        GamepadEx ijustneedonetrigger=new GamepadEx(gamepad2);
+        TriggerAnalogButton rightTrigger=new TriggerAnalogButton(ijustneedonetrigger, GamepadKeys.Trigger.RIGHT_TRIGGER,0.5);
+        claw.init(hardwareMap);
         drive.init(hardwareMap,false);
         arm.init(hardwareMap,telemetry);
         arm.setState(ArmSubsystem.ArmStates.STOW);
@@ -22,9 +29,12 @@ public class NormalTeleOp extends LinearOpMode {
 
             if(gamepad2.a)arm.setState(ArmSubsystem.ArmStates.MID);//arm and claw pos
             else if(gamepad2.b)arm.setState(ArmSubsystem.ArmStates.LOW);
-            else if(gamepad2.right_bumper)arm.setState(ArmSubsystem.ArmStates.STOW);
+            else if(gamepad2.dpad_up)arm.setState(ArmSubsystem.ArmStates.STOW);
             else if(gamepad2.y)arm.setState(ArmSubsystem.ArmStates.HIGH);
-            else if(gamepad2.left_bumper)arm.setState(ArmSubsystem.ArmStates.INTAKE);
+            else if(gamepad2.left_bumper){arm.setState(ArmSubsystem.ArmStates.INTAKE);claw.setOpen();}
+
+            if(rightTrigger.get()&&!lastPress)claw.toggle();//claw toggle
+            lastPress= rightTrigger.get();
             telemetry.update();
         }
     }

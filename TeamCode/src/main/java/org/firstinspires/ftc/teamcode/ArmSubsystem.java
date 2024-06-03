@@ -39,7 +39,7 @@ public class ArmSubsystem {
     Telemetry telemetry;
 
     public void init(HardwareMap hwmap, Telemetry telemetry){
-        this.telemetry=telemetry;
+        this.telemetry=telemetry;//fun hardware mapping
         jointOne=hwmap.get(DcMotor.class, "firstJoint");
         jointTwo=hwmap.get(DcMotor.class,"secondJoint");
         wrist=hwmap.get(Servo.class,"wrist");
@@ -54,11 +54,13 @@ public class ArmSubsystem {
         jointTwo.setTargetPosition(0);
         jointTwo.setPower(0);
         jointTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //i rly dont wanna tune pid so im hoping to make built in work
+        //if its just a little jiggle ill tune the built in bc easier
     }
     public void setState(ArmStates state){
         jointOne.setPower(1);
         jointTwo.setPower(1);
-        switch (state){
+        switch (state){//massive state machine, not fsm tho
             case STOW:
                 jointOne.setTargetPosition(joint1StowPos);
                 jointTwo.setTargetPosition(joint2StowPos);
@@ -88,7 +90,7 @@ public class ArmSubsystem {
         }
     }
     public void printPosistions(){
-        int[] pos={jointOne.getCurrentPosition(),jointTwo.getCurrentPosition()};
+        int[] pos={jointOne.getCurrentPosition(),jointTwo.getCurrentPosition()};//too lazy to make it not an array
         telemetry.addData("first joint", pos[0]);
         telemetry.addData("second joint", pos[1]);
     }

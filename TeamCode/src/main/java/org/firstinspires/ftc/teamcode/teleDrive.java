@@ -37,7 +37,7 @@ public class teleDrive {
 
     public void resetHeading(){imu.resetYaw();}
 
-    public void runsqr(double y1, double x1, double rx1, double topS){
+    public void runsqr(double y1, double x1, double rx1, double topS){//sqr the joysticks feild centric
 
         double y = -y1; // Remember, this is reversed!
         double x = x1 * 1.1; // Counteract imperfect strafing
