@@ -32,6 +32,8 @@ public class NormalTeleOp extends LinearOpMode {
             else if(gamepad2.dpad_up)arm.setState(ArmSubsystem.ArmStates.STOW);
             else if(gamepad2.y)arm.setState(ArmSubsystem.ArmStates.HIGH);
             else if(gamepad2.left_bumper){arm.setState(ArmSubsystem.ArmStates.INTAKE);claw.setOpen();}
+            else if(gamepad2.dpad_left)arm.setState(ArmSubsystem.ArmStates.HANG_PLACE);
+            else if(gamepad2.dpad_right)arm.setState(ArmSubsystem.ArmStates.HANG);
 
             if(rightTrigger.get()&&!lastPress)claw.toggle();//claw toggle
             lastPress= rightTrigger.get();

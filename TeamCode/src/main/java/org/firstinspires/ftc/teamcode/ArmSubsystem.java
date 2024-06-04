@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class ArmSubsystem {
+    private DcMotor winch;
     private DcMotor jointOne;
     private DcMotor jointTwo;
     private Servo wrist;
@@ -15,8 +16,15 @@ public class ArmSubsystem {
         STOW,
         LOW,
         MID,
-        HIGH
+        HIGH,
+        HANG_PLACE,
+        HANG
     }
+
+    public static int joint1hang=0;
+    public static int joint2hang=0;
+    public static int winchInPos=0;
+
     public static int joint1IntakePos=0;
     public static int joint2IntakePos=0;
     public static int wristIntakePos=0;
@@ -40,6 +48,8 @@ public class ArmSubsystem {
 
     public void init(HardwareMap hwmap, Telemetry telemetry){
         this.telemetry=telemetry;//fun hardware mapping
+        winch=hwmap.get(DcMotor.class,"winch");
+
         jointOne=hwmap.get(DcMotor.class, "firstJoint");
         jointTwo=hwmap.get(DcMotor.class,"secondJoint");
         wrist=hwmap.get(Servo.class,"wrist");
@@ -54,6 +64,12 @@ public class ArmSubsystem {
         jointTwo.setTargetPosition(0);
         jointTwo.setPower(0);
         jointTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        winch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        winch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        winch.setTargetPosition(0);
+        winch.setPower(0);
+        winch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //i rly dont wanna tune pid so im hoping to make built in work
         //if its just a little jiggle ill tune the built in bc easier
     }
@@ -85,6 +101,17 @@ public class ArmSubsystem {
                 jointOne.setTargetPosition(joint1PlaceHigh);
                 jointTwo.setTargetPosition(joint2PlaceHigh);
                 wrist.setPosition(wristPLaceHigh);
+                break;
+            case HANG_PLACE:
+                jointOne.setTargetPosition(joint1hang);
+                jointTwo.setTargetPosition(joint2hang);
+                wrist.setPosition(wristStowPos);
+                break;
+            case HANG:
+                jointOne.setTargetPosition(joint1StowPos);
+                jointTwo.setTargetPosition(joint2StowPos);
+                winch.setTargetPosition(winchInPos);
+                winch.setPower(1);
                 break;
 
         }
