@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class NormalTeleOp extends LinearOpMode {
@@ -14,14 +15,16 @@ public class NormalTeleOp extends LinearOpMode {
     @Override
     public void runOpMode(){
         GamepadEx ijustneedonetrigger=new GamepadEx(gamepad2);
+        Servo drone=hardwareMap.get(Servo.class, "drone");
         TriggerAnalogButton rightTrigger=new TriggerAnalogButton(ijustneedonetrigger, GamepadKeys.Trigger.RIGHT_TRIGGER,0.5);
         claw.init(hardwareMap);
         drive.init(hardwareMap,false);
         arm.init(hardwareMap,telemetry);
         arm.setState(ArmSubsystem.ArmStates.STOW);
-
+        drone.setPosition(0);
         waitForStart();
         while(opModeIsActive()) {
+            if(gamepad2.start)drone.setPosition(1);
             arm.printPosistions();
             if (gamepad1.left_trigger > 0.3|| gamepad1.left_bumper) drive.runsqr(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, 0.5);
             else drive.runsqr(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, 1);
