@@ -19,7 +19,7 @@ public class AutoRedFar extends LinearOpMode
     public void runOpMode() throws InterruptedException {
         ClawSubsystem clawSubsystem = new ClawSubsystem();
         clawSubsystem.init(hardwareMap);
-        Pose2d startPose =  new Pose2d(-TILE*1.4, -2.5*TILE, Math.toRadians(90));
+        Pose2d startPose =  new Pose2d(-TILE*1.5, -2.5*TILE, Math.toRadians(90));
         SampleMecanumDrive drive=new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
 

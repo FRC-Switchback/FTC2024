@@ -21,7 +21,7 @@ public class AutoBlueFar extends LinearOpMode
         ClawSubsystem clawSubsystem = new ClawSubsystem();
         clawSubsystem.init(hardwareMap);
         clawSubsystem.setOpen();
-        Pose2d startPose =  new Pose2d(-TILE*1.6, 2.5*TILE, Math.toRadians(-90));
+        Pose2d startPose =  new Pose2d(-TILE*1.5, 2.5*TILE, Math.toRadians(-90));
         SampleMecanumDrive drive=new SampleMecanumDrive(hardwareMap);
 
 
@@ -123,6 +123,7 @@ public class AutoBlueFar extends LinearOpMode
                 drive.followTrajectorySequenceAsync(Left);
                 break;
         }
+
         /*telemetry.addData("DONE 2",0);
         telemetry.update();*/
         while(!isStopRequested()) {
